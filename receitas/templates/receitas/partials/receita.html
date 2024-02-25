@@ -1,4 +1,6 @@
 <div class="receita receita-list-item">
+
+    {#================================================================#}
     {% if receita.cover %}
         <div class="receita-cover">
             <a href="{% url 'receitas-receita' receita.id %}">
@@ -6,6 +8,7 @@
             </a>
         </div>
     {% endif  %}
+    {#=============================#}
     <div class="receita-title-container">
         <h2 class="receita-title">
             <a href="{% url 'receitas-receita' receita.id %}">
@@ -14,6 +17,8 @@
         </h2>
     </div>
     <div class="receita-author">
+
+        {#================================================================#}
         {% if receita.author is not None %}
             <span class="receita-author-item">
                 <i class="fas fa-user"></i>
@@ -24,11 +29,14 @@
                 {% endif%}
             </span>
         {% endif%}
+        {#=================================#}
+
         <span class="receita-author-item">
             <i class="fas fa-calendar-alt"></i>
             {{ receita.created_at|date:"d/m/Y"}} às  {{ receita.created_at|date:"H:i"}}
         </span>
 
+        {#================================================================#}
         {% if receita.category is not None %}
             <span class="receita-author-item">
                 <a href="{% url 'receitas-category' receita.category_id %}">
@@ -37,6 +45,7 @@
                 </a>
             </span>
         {% endif  %}
+        {#=================================#}
     </div>
 
     <div class="receita-content">
@@ -58,6 +67,7 @@
         </div>
     </div>
 
+    {#================================================================#}
     {% if is_detail_page is not True %}
         <footer class="receita-footer">
             <a class="receita-read-more button button-dark button-full-width" href="{% url 'receitas-receita' receita.id %}">
@@ -66,10 +76,17 @@
             </a>
         </footer>
     {% endif %}
+    {#=============================#}
 
+    {#================================================================#}
     {% if is_detail_page is True %}
        <div class="preparation_steps">
-        {{ receita.preparation_steps | linebreaksbr}}
+        {% if receita.preparation_steps_is_html is True %}
+            {{ receita.preparation_steps | safe}}
+        {% else %}
+            {{ receita.preparation_steps | linebreaksbr}}
+        {% endif%}
        </div>
     {% endif %}
+    {#==========================#}
 </div>

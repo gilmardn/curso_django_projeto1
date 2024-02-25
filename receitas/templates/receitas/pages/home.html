@@ -7,6 +7,8 @@
 
             {% for receita in receitas %}
                 {% include "receitas/partials/receita.html" %}
+            {% empty %}
+               <h1>Nenhuma receita encontrada.</h1>
             {% endfor %}
         </div>
     {% endblock conteudo %}
