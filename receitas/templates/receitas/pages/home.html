@@ -3,10 +3,14 @@
 {% block titulo %}Home{% endblock titulo %}
 
 {% block conteudo %}
-        <div class="main-content main-content-list container">
 
+{% include "receitas/partials/messages.html" %}
+
+        <div class="main-content main-content-list container">
             {% for receita in receitas %}
+
                 {% include "receitas/partials/receita.html" %}
+                
             {% empty %}
                <h1>Nenhuma receita encontrada.</h1>
             {% endfor %}

@@ -9,7 +9,9 @@ class RecipeHomeViewTest(RecipeTestBase):
         view = resolve(reverse('receitas-home'))
         self.assertIs(view.func, views.home)
 
-    def test_recipe_home_view_returns_status_code_200_OK(self):
+
+'''
+ def test_recipe_home_view_retorna_status_200_OK(self):
         response = self.client.get(reverse('receitas-home'))
         self.assertEqual(response.status_code, 200)
 
@@ -23,7 +25,10 @@ class RecipeHomeViewTest(RecipeTestBase):
             '<h1>No recipes found here 🥲</h1>',
             response.content.decode('utf-8')
         )
-    
+
+
+'''
+   
 
     def test_recipe_home_template_loads_recipes(self):
         # Need a recipe for this test

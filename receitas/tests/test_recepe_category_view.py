@@ -5,19 +5,19 @@ from .test_recipe_base import RecipeTestBase
 
 
 class RecipeCategoryViewsTest(RecipeTestBase):
-    def test_recipe_category_view_function_is_correct(self):
+    def testa_recipe_category_view_funcao_correta(self):
         view = resolve(
             reverse('receitas-category', kwargs={'category_id': 1000})
         )
         self.assertIs(view.func, views.category)
 
-    def test_recipe_category_view_returns_404_if_no_recipes_found(self):
+    def testa_recipe_category_view_returns_404_se_nao_encontar_receita(self):
         response = self.client.get(
             reverse('receitas-category', kwargs={'category_id': 1000})
         )
         self.assertEqual(response.status_code, 404)
 
-    def test_recipe_category_template_loads_recipes(self):
+    def testa_recipe_category_carrega_modelo_receita(self):
         needed_title = 'This is a category test'
         # Need a recipe for this test
         self.make_recipe(title=needed_title)
@@ -28,7 +28,7 @@ class RecipeCategoryViewsTest(RecipeTestBase):
         # Check if one recipe exists
         self.assertIn(needed_title, content)
 
-    def test_recipe_category_template_dont_load_recipes_not_published(self):
+    def testa_recipe_category_nao_carrega_receitas_nao_publicadas(self):
         """Test recipe is_published False dont show"""
         # Need a recipe for this test
         recipe = self.make_recipe(is_published=False)

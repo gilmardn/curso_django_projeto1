@@ -6,11 +6,11 @@ from .test_recipe_base import RecipeTestBase
 
 class RecipeDetailViewsTest(RecipeTestBase):
 
-    def test_recipe_detail_view_function_is_correct(self):
+    def testa_recipe_detail_view_e_funcao_correta(self):
         view = resolve(
-            reverse('receitas-receita', kwargs={'id': 1})
+            reverse('receitas-receita', kwargs={'id': 2})
         )
-        self.assertIs(view.func, views.recipe)
+        self.assertIs(view.func, views.receitas)
 
     def test_recipe_detail_view_returns_404_if_no_recipes_found(self):
         response = self.client.get(

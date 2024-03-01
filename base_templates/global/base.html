@@ -24,22 +24,22 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@900&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="{% static 'receita/css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'global/css/styles.css' %}">
     <link rel="stylesheet" href="{% static 'global/css/global-style.css' %}">
 
     <title>
         {% block titulo %} {% endblock titulo %}
-        
     </title>
 
 </head>
 <body>
-    {% include "receitas/partials/header.html" %}
-    {% include "receitas/partials/search.html" %}
+    {% include "global/partials/header.html" %}
+    {% include "global/partials/search.html" %}
     <main class="main-content-container">
         {% block conteudo %} {% endblock conteudo %}
+        {% include "global/partials/pagination.html" %}
     </main>   
-    {% include "receitas/partials/footer.html" %}
+    {% include "global/partials/footer.html" %}
 </body>
 
 </html>
