@@ -1,4 +1,4 @@
-from authors.forms import RegisterForm
+from authors.templates.authors.forms.register_form import RegisterForm
 from django.test import TestCase
 from parameterized import parameterized
 

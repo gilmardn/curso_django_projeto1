@@ -26,10 +26,8 @@ SECRET_KEY = os.environ.get('SENHA_SECRETA', 'INSECURE')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
-if os.environ.get('PRODUCAO') == '1':
-    DEBUG = True
-else:
-    DEBUG = False
+
+DEBUG = True
 
 
 ALLOWED_HOSTS = []
