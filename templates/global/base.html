@@ -1,0 +1,17 @@
+
+{% load static %}
+    {% include "global/partials/head.html" %}
+
+
+<body>
+    {% include "global/partials/header.html" %}
+    {% include "global/partials/search.html" %}
+    <main class="main-content-container">
+        {% block conteudo %} {% endblock conteudo %}
+        {% include "global/partials/pagination.html" %}
+    </main>   
+    {% include "global/partials/footer.html" %}
+    <script src="{% static 'global/js/scripts.js' %}"></script>
+</body>
+
+</html>

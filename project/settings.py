@@ -27,10 +27,18 @@ SECRET_KEY = os.environ.get('SENHA_SECRETA', 'INSECURE')
 # SECURITY WARNING: don't run with debug turned on in production!
 
 
-DEBUG = True
+
+if os.environ.get('DEBUG')  == "False":
+    DEBUG = False
+else: 
+    DEBUG = True
 
 
-ALLOWED_HOSTS = []
+
+
+
+
+ALLOWED_HOSTS: list[str] = []
 
 
 # Application definition
@@ -62,9 +70,7 @@ ROOT_URLCONF = 'project.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [
-            BASE_DIR / 'base_templates',
-            ],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -85,8 +91,14 @@ WSGI_APPLICATION = 'project.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        #'ENGINE': 'django.db.backends.sqlite3',
+        #'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': os.environ.get('DATABASE_ENGINE'),
+        'NAME': os.environ.get('DATABASE_NAME'),
+        'USER': os.environ.get('DATABASE_USER'),
+        'PASSWORD': os.environ.get('DATABASE_PASSWORD'),
+        'HOST': os.environ.get('DATABASE_HOST'),
+        'PORT': os.environ.get('DATABASE_PORT'),
     }
 }
 
@@ -125,12 +137,19 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-STATIC_URL = '/static/'
-STATICFILES_DIRS = [BASE_DIR / 'base_static',]
-STATIC_ROOT = BASE_DIR / 'static'
+STATIC_URL = 'static/'
+# STATICFILES_DIRS = [BASE_DIR / 'base_static',]
+STATICFILES_DIRS = (os.path.join(BASE_DIR, 'templates/static'),)
 
+# STATIC_ROOT = BASE_DIR / 'static'
+STATIC_ROOT = (os.path.join('static'))
+
+# MEDIA_URL = '/media/'
+# MEDIA_ROOT = BASE_DIR / 'media'
+MEDIA_ROOT = (os.path.join(BASE_DIR, 'media'))
 MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
+
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
@@ -145,3 +164,4 @@ MESSAGE_TAGS = {
     constants.SUCCESS: 'message-success',
     constants.WARNING: 'message-warning',
 }
+
