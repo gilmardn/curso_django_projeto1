@@ -27,7 +27,7 @@ def register_create(request):
         user = form.save(commit=False)
         user.set_password(user.password)
         user = form.save(commit=True)
-        messages.success(request, 'Your user is create, please log in.')
+        messages.success(request, 'Seu usuário foi criado, faça login.')
         del(request.session['register_form_data'])
 
         return redirect(reverse('authors:login'))
@@ -53,13 +53,13 @@ def login_create(request):
             password=form.cleaned_data.get('password', ''),
         )
         if authenticated_user is not None:
-            messages.success(request, 'Your are logged in.')
+            messages.success(request, 'Você está logado.')
             login(request, authenticated_user)
         else:
-            messages.error(request, 'Invalid credentials')
+            messages.error(request, 'Credenciais inválidas')
 
     else:
-        messages.error(request, 'Invalid username or password')
+        messages.error(request, 'Usuário ou senha inválido')
 
     return redirect(reverse('authors:dashboard'))
 #===============================================================================================
@@ -67,14 +67,14 @@ def login_create(request):
 @login_required(login_url='authors:login', redirect_field_name='next')
 def logout_view(request):
     if not request.POST:
-        messages.error(request, 'Invalid logout request')
+        messages.error(request, 'Solicitação de logout inválida')
         return redirect(reverse('authors:login'))
     
     if request.POST.get('username') != request.user.username:
-        messages.error(request, 'Invalid logout user')
+        messages.error(request, 'Usuário do logout inválido')
         return redirect(reverse('authors:login'))
     
-    messages.success(request, 'Logged out successfully')
+    messages.success(request, 'Desconectado com sucesso')
     logout(request)
     return redirect(reverse('authors:login'))
 #===============================================================================================   
@@ -111,7 +111,7 @@ def dashboard_receita_edit(request, id):
 
         receita.save()
 
-        messages.success(request, 'Sua receita foi salva com sucesso!')
+        messages.success(request, 'Salvo com sucesso!')
         return redirect(reverse('authors:dashboard_receita_edit', args=(id,)))
 
     context = {'form': form}
@@ -175,5 +175,5 @@ def dashboard_receita_delete(request):
         raise Http404()
 
     receita.delete()
-    messages.success(request, 'Deleted successfully.')
+    messages.success(request, 'Excluido com sucesso.')
     return redirect(reverse('authors:dashboard'))

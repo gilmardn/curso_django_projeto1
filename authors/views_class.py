@@ -56,7 +56,7 @@ class DashboardReceita(View):
             receita.preparation_steps_is_html = False
             receita.is_published = False
             receita.save()
-            messages.success(request, 'Sua receita foi salva com sucesso!')
+            messages.success(request, 'Salvo com sucesso!')
             return redirect(reverse('authors:dashboard_receita_edit', args=(id,)))
         
         return self.render_receita(form)
@@ -67,7 +67,7 @@ class DashboardReceitaDelete(DashboardReceita):
     def post(self, *args, **kwargs):
         receita = self.get_receita(self.request.POST.get('id'))
         receita.delete()
-        messages.success(self.request, 'Deleted successfully.')
+        messages.success(self.request, 'Excluido com sucesso.')
         return redirect(reverse('authors:dashboard'))
 #===============================================================================================
     

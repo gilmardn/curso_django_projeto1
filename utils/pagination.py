@@ -29,7 +29,7 @@ def make_pagination_range(page_range, qty_pages, current_page,):
         'last_page_out_of_range': stop_range < total_pages,
     }
 
-def make_pagination(request, queryset, items_page, qtd_page):
+def make_pagination(request, queryset, items_page, qty_pages):
     try:
         current_page = int(request.GET.get('page', 1))
     except:
@@ -40,7 +40,7 @@ def make_pagination(request, queryset, items_page, qtd_page):
 
     pagination_range = make_pagination_range(
         paginator.page_range, 
-        qtd_page, 
+        qty_pages, 
         current_page
         )
     

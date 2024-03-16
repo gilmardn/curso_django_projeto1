@@ -1,31 +1,63 @@
 {% extends 'global/base.html' %}
 
-{% block titulo %}Dashboard ({{ user }}) | {% endblock titulo %}
+{% block titulo %}Painel ({{ user }}) | {% endblock titulo %}
 
 {% block conteudo %}
   <div class="main-content center container">
-    <h2>Dashboard ({{ user }})</h2>
+    {% comment %} <h2>Painel ({{ user }})</h2> {% endcomment %}
     {% include 'authors/partials/login_message.html' %}
     {% include 'global/partials/messages.html' %}
 
     <div class="authors-dashboard-container">
-      <h3>Your recipes</h3>
-
       <ul>
-        {% for receita in receitas %}
-          <li>
-            <a href="{% url 'authors:dashboard_receita_edit' receita.id %}">{{ receita.title }}</a> - 
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              
+              <th scope="col" class="table-dark"><h3>Suas receitas</h3></th>
+              <th scope="col" class="table-dark"></th>
+              <th scope="col" class="table-dark"></th>
+            </tr>
+          </thead>
+          {% for receita in receitas %}
+          <tbody>
+            <tr>
+             
+              <td>{{ receita.title }}</td>
+              <td>
+                <a href="{% url 'authors:dashboard_receita_edit' receita.id %}" class="button">Alterar</a>
+              </td>
+              <td>
+                <form class="inline-form form-delete" action="{% url 'authors:dashboard_receita_delete' %}" method='POST'>
+                  {% csrf_token %}
+                  <input type="hidden" name="id" value="{{ receita.id }}">
+                  <button class="plaintext-button" type="submit" >❌Excluir</button>
+                </form>
+
+              </td>
+            </tr>
+            
+          </tbody>
+       
+
+       
+
+
+
+          {% comment %} <li>
+            <a href="{% url 'authors:dashboard_receita_edit' receita.id %}" class="button">{{ receita.title }}</a> - 
             <form class="inline-form form-delete" action="{% url 'authors:dashboard_receita_delete' %}" method='POST'>
               {% csrf_token %}
               <input type="hidden" name="id" value="{{ receita.id }}">
-              <button class="plaintext-button" type="submit">❌</button>
+              <button class="button" type="submit">❌Excluir</button>
             </form>
-          </li>
+          </li> {% endcomment %}
         {% empty %}
           <li>
-            <p>You do not have recipes, please create one.</p>
+            <p>Você não tem receitas, crie uma.</p>
           </li>
         {% endfor %}
+      </table>
       </ul>
     </div>
   </div>

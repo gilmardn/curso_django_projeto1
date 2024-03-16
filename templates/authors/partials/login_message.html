@@ -2,18 +2,17 @@
 
 {% if user.is_authenticated %}
 <div class="login-message">
-  Você está logado com
-  {#  Your are logged in with  #} 
+  {% comment %} Você está logado como
   {{ request.user.username }}. 
   <a href="{% url 'authors:dashboard' %}">Veja suas receitas</a>,
-  {# <a href="{% url 'authors:dashboard' %}">See your recipes</a>, #}
-  <a href="{% url 'authors:dashboard_receita_new' %}">crie uma nova receita</a> or  
-  {# <a href="{% url 'authors:dashboard_receita_new' %}">create a new recipe</a> or #}
+  <a href="{% url 'authors:dashboard_receita_new' %}">crie uma nova receita</a> ou
+  {% include 'authors/partials/form_logout.html' %}
+  <a class="authors-logout-link" href="#">Clique aqui</a> para Sair. {% endcomment %}
+
+
+
+
    
-  <form class="inline-form" action="{% url 'authors:logout' %}" method='POST'>
-    {% csrf_token %}
-    <input type="hidden" name="username" value="{{ request.user.username }}">
-    <button class="plaintext-button" type="submit">click here</button>
-  </form> to logout.
+
 </div>
 {% endif %}

@@ -9,57 +9,57 @@ from utils.django_forms import  add_placeholder, strong_password
 class RegisterForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        add_placeholder(self.fields['username'], 'Your username')
-        add_placeholder(self.fields['email'], 'Your e-mail')
-        add_placeholder(self.fields['first_name'], 'Ex.: John')
-        add_placeholder(self.fields['last_name'], 'Ex.: Doe')
-        add_placeholder(self.fields['password'], 'Type your password')
-        add_placeholder(self.fields['password2'], 'Repeat your password')
+        add_placeholder(self.fields['username'], '')
+        add_placeholder(self.fields['email'], '')
+        add_placeholder(self.fields['first_name'], '')
+        add_placeholder(self.fields['last_name'], '')
+        add_placeholder(self.fields['password'], '')
+        add_placeholder(self.fields['password2'], '')
 
     username = forms.CharField(
-        label='Username',
+        label='Usuario',
         help_text=(
-            'Username must have letters, numbers or one of those @.+-_. '
-            'The length should be between 4 and 150 characters.'
+            'O nome de usuário deve conter letras, números ou um desses @.+-_. '
+            'O comprimento deve estar entre 4 e 150 caracteres.'
         ),
         error_messages={
-            'required': 'This field must not be empty',
-            'min_length': 'Username must have at least 4 characters',
-            'max_length': 'Username must have less than 150 characters',
+            'required': 'Este campo não deve estar vazio',
+            'min_length': 'O nome de usuário deve ter pelo menos 4 caracteres',
+            'max_length': 'O nome de usuário deve ter menos de 150 caracteres',
         },
         min_length=4, max_length=150,
     )
     first_name = forms.CharField(
-        error_messages={'required': 'Write your first name'},
-        label='First name'
+        error_messages={'required': 'Escreva seu primeiro nome'},
+        label='Nome'
     )
     last_name = forms.CharField(
-        error_messages={'required': 'Write your last name'},
-        label='Last name'
+        error_messages={'required': 'Escreva seu sobrenome'},
+        label='Sobrenome'
     )
     email = forms.EmailField(
-        error_messages={'required': 'E-mail is required'},
+        error_messages={'required': 'E-mail é Obrigatório'},
         label='E-mail',
-        help_text='The e-mail must be valid.',
+        help_text='O e-mail deve ser válido.',
     )
     password = forms.CharField(
         widget=forms.PasswordInput(),
         error_messages={
-            'required': 'Password must not be empty'
+            'required': 'A senha não deve estar vazia'
         },
         help_text=(
-            'Password must have at least one uppercase letter, '
-            'one lowercase letter and one number. The length should be '
-            'at least 8 characters.'
+            'A senha deve ter pelo menos uma letra maiúscula, '
+            'uma letra minúscula e um número. O comprimento deve ser '
+            'pelo menos 8 caracteres.'
         ),
         validators=[strong_password],
-        label='Password'
+        label='Senha'
     )
     password2 = forms.CharField(
         widget=forms.PasswordInput(),
-        label='Password2',
+        label='Confirmar senha',
         error_messages={
-            'required': 'Please, repeat your password'
+            'required': 'Por favor, repita sua senha'
         },
     )
 
@@ -79,7 +79,7 @@ class RegisterForm(forms.ModelForm):
 
         if exists:
             raise ValidationError(
-                'User e-mail is already in use', code='invalid',
+                'O e-mail do usuário já está em uso', code='invalid',
             )
 
         return email
@@ -92,7 +92,7 @@ class RegisterForm(forms.ModelForm):
         
         if password != password2:
             password_confirmation_error = ValidationError(
-                'Password and password2 must be equal',
+                'A Senha e a Confirmação tem que ser iguais',
                 code='invalid'
             )
             raise ValidationError({

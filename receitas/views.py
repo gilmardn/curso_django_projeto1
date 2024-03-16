@@ -1,6 +1,3 @@
-import os
-from typing import List
-
 from django.db.models import Q
 from django.http.response import Http404
 from django.shortcuts import render, get_list_or_404, get_object_or_404
@@ -8,96 +5,20 @@ from django.views.generic import ListView, DetailView
 from utils.pagination import make_pagination
 from receitas.models import  Receita
 
-POR_PAGINA = 6 # multiplo de 3
-PAGINA_POR_TELA = 6 # Obrigatorio ser numero par
+QTY_PAGES = 6 # multiplo de 3
+ITEMS_PAGE = 8 # Obrigatorio ser numero par
 #===========================================================================
 
-class RecipeListViewBase(ListView):
-    model = Receita
-    context_object_name = 'receitas'
-    ordering = ['-id']
-    template_name = 'receitas/pages/home.html'
-
-    def get_queryset(self, *args, **kwargs):
-        qs = super().get_queryset(*args, **kwargs)
-        qs = qs.filter(is_published=True,)
-        return qs
-
-    def get_context_data(self, *args, **kwargs):
-        ctx = super().get_context_data(*args, **kwargs)
-        page_obj, pagination_range = make_pagination(self.request, ctx.get('receitas'), POR_PAGINA, PAGINA_POR_TELA)
-
-        ctx.update({'receitas': page_obj, 'pagination_range': pagination_range})
-        return ctx
-#===========================================================================
-
-class RecipeListViewHome(RecipeListViewBase):
-    template_name = 'receitas/pages/home.html'
-#===========================================================================
-    
-class RecipeListViewCategory(RecipeListViewBase):
-    template_name = 'receitas/pages/category.html'
-    def get_queryset(self, *args, **kwargs):
-        qs = super().get_queryset(*args, **kwargs)
-        qs = qs.filter(category_id = self.kwargs.get('category_id'))
-        return qs
-#===========================================================================
-    
-class RecipeListViewSearch(RecipeListViewBase):
-    template_name = 'receitas/pages/search.html'
-
-    def get_queryset(self, *args, **kwargs):
-        search_term = self.request.GET.get('q', '')
-        qs = super().get_queryset(*args, **kwargs)
-        qs = qs.filter(Q(
-            Q(title__icontains=search_term) |
-            Q(description__icontains=search_term),
-        ))
-        return qs
-    
-    def get_context_data(self, *args, **kwargs):
-        ctx = super().get_context_data(*args, **kwargs)
-        search_term = self.request.GET.get('q', '')
-
-        ctx.update({
-            'page_title': f'Search for "{search_term}" |',
-            'search_term': search_term,
-            'additional_url_query': f'&q={search_term}',
-        })
-
-        return ctx
-
-        
-#===========================================================================
-
-class RecipeDetail(DetailView):
-    model = Receita
-    context_object_name = 'receitas'
-    template_name = 'receitas/pages/receita_view.html'
-
-    def get_queryset(self, *args, **kwargs):
-        qs = super().get_queryset(*args, **kwargs)
-        qs = qs.filter(is_published=True)
-        return qs
 
 
-    def get_context_data(self, *args, **kwargs):
-        ctx = super().get_context_data(*args, **kwargs)
 
-        ctx.update({'is_detail_page': True})
-
-        return ctx
-
-
-#############################################################################
-#############################################################################  
 def home(request):
     receitas = get_list_or_404(
         Receita.objects.filter(
             is_published=True,
             ).order_by('-id'))
 
-    page_obj, pagination_range = make_pagination(request, receitas, POR_PAGINA, PAGINA_POR_TELA)
+    page_obj, pagination_range = make_pagination(request, receitas, QTY_PAGES, ITEMS_PAGE)
 
     context = {'receitas': page_obj, 'pagination_range': pagination_range }
     return render(request, 'receitas/pages/home.html', context)
@@ -111,7 +32,7 @@ def category(request, category_id):
             ).order_by('-id'))
     
 
-    page_obj, pagination_range = make_pagination(request, receitas, POR_PAGINA, PAGINA_POR_TELA)
+    page_obj, pagination_range = make_pagination(request, receitas, QTY_PAGES, ITEMS_PAGE)
 
     context = {'receitas':page_obj, 
                'pagination_range':pagination_range,
@@ -138,7 +59,7 @@ def search(request):
         is_published=True
     ).order_by('-id')
 
-    page_obj, pagination_range = make_pagination(request, receitas, POR_PAGINA, PAGINA_POR_TELA)
+    page_obj, pagination_range = make_pagination(request, receitas, QTY_PAGES, ITEMS_PAGE)
 
     context = {'page_title': f'Pesquisa por "{search_term}" |',
                'search_term': search_term,
